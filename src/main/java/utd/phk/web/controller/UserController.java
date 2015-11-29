@@ -30,16 +30,17 @@ public class UserController {
 	}
 
 	// ex: {context}/user/1
-	@RequestMapping(value = "/user/id/{id}")
-	public ResponseEntity<User> getUser(@PathVariable("id") String emailId, HttpServletResponse response) {
-		ResponseEntity<User> dummy = null;
-		User user = userService.getUser(emailId);
+	@RequestMapping(value = "/user/id/{id}", method = RequestMethod.GET)
+	
+	public @ResponseBody ResponseEntity<User> getUser(@PathVariable("id") String userid, HttpServletResponse response) {
+		ResponseEntity<User> userdetails = null;
+		User user = userService.getUser(userid);
 		if (user == null) {
 			response.setStatus(404);
-			return dummy;
+			return userdetails;
 		}
-		dummy = new ResponseEntity<User>(user, HttpStatus.OK);
-		return dummy;
+		userdetails = new ResponseEntity<User>(user, HttpStatus.OK);
+		return userdetails;
 	}
 
 	/// user?name="Prajwal"
@@ -48,22 +49,7 @@ public class UserController {
 		return null;
 	}
 
-	/*@RequestMapping(value = "/user/new", method = RequestMethod.POST)
-	@ResponseStatus(value=HttpStatus.OK)
-	public String createUser(@RequestBody User newUser) {
-		String result = "success";	
-		if (newUser != null) {
-			System.out.println(newUser.getfName());
-		} else {
-			System.out.println("user null");
-		}
-		if (userService.newUser(newUser) < 0) {
-			result = "failure";
-		}
 
-		return result;
-	}*/
-	
 	@RequestMapping(value = "/user/new", method = RequestMethod.POST)
     @ResponseStatus(value=HttpStatus.OK)
     public @ResponseBody int createUser(@RequestParam("fname") String fName, @RequestParam("lname") String lName, @RequestParam("address") String address, @RequestParam("zipcode") String zipcode, @RequestParam("gender") String gender) {

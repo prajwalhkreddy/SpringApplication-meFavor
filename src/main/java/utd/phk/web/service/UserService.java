@@ -15,11 +15,18 @@ public class UserService {
 	private UserDao userDao;
 	
 	public User getUser(String id) {
-		//query db
-		User u = new User();
-//		u.setId("1");
-//		u.setFirstName("Prajwal");
-		return u;
+		User user = null;
+		try {
+			user = userDao.getUserById(id);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+							
+		//List<String> users = getOpponentDaoImpl().getOpponents(id);
+				
+		System.out.println("getting");
+		return user;
 	}
 	
 	public int newUser(String fName, String lName, String address, String zipcode, String gender) {

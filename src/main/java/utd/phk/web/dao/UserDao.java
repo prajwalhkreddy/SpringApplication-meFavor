@@ -22,8 +22,39 @@ public class UserDao {
 		return this.dataSource;
 	}
 	
-	public User getUserById(String id) {
-		return null;
+	public User getUserById(String id) throws SQLException {
+		
+		Connection conn = null;
+		PreparedStatement ps = null;
+		int insert = 0;
+
+		String sql = "select * from mefavordb.users where user_id = ?";
+
+		conn = getDataSource().getConnection();
+		ps = conn.prepareStatement(sql);
+		ps.setString(1, id);
+		ResultSet rs = ps.executeQuery();
+		User user = null;
+
+		if (rs.next()) {
+			user = new User();
+			user.setUserid(rs.getString("user_id"));
+			user.setfName(rs.getString("fname"));
+			user.setlName(rs.getString("lname"));
+			user.setAddress(rs.getString("address"));
+			user.setZipcode(rs.getString("zipcode"));
+			user.setGender(rs.getString("gender"));
+					
+		}
+		try {
+			ps.close();
+			conn.close();
+			rs.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return user;
+		
 	}
 
 	public User getUserByUserName(String userName) {
