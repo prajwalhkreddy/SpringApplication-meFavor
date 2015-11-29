@@ -66,10 +66,10 @@ public class UserController {
 	
 	@RequestMapping(value = "/user/new", method = RequestMethod.POST)
     @ResponseStatus(value=HttpStatus.OK)
-    public @ResponseBody int createUser(@RequestParam("name") String fName) {
+    public @ResponseBody int createUser(@RequestParam("fname") String fName, @RequestParam("lname") String lName, @RequestParam("address") String address, @RequestParam("zipcode") String zipcode, @RequestParam("gender") String gender) {
         String result = "success";    
         System.out.println("success");
-        int status = userService.newUser(fName);
+        int status = userService.newUser(fName, lName, address, zipcode, gender);
 
         return status;
     }

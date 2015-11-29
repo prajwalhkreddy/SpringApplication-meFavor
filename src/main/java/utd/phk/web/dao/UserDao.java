@@ -41,15 +41,17 @@ public class UserDao {
 		int insert = 0;
 
 		String sql = "insert into mefavordb.users"
-				+ "(fname) "
-				+ " values(?)";
+				+ "(fname, lname, address, zipcode, rating, gender)"
+				+ " values(?,?,?,?,?,?)";
 
 		conn = getDataSource().getConnection();
 		ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-		/*ps.setString(1, newUser.getuName());
-		ps.setString(2, newUser.getPassword());
-		ps.setString(3, newUser.getfName());*/
 		ps.setString(1, newUser.getfName());
+		ps.setString(2, newUser.getlName());
+		ps.setString(3, newUser.getAddress());
+		ps.setString(4, newUser.getZipcode());
+		ps.setString(5, newUser.getRating());
+		ps.setString(6, newUser.getGender());
 		// set others
 		insert = ps.executeUpdate();
 		ResultSet rs = ps.getGeneratedKeys();

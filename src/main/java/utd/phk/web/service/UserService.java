@@ -22,10 +22,14 @@ public class UserService {
 		return u;
 	}
 	
-	public int newUser(String name) {
+	public int newUser(String fName, String lName, String address, String zipcode, String gender) {
 		int result = -1;
         User user = new User();
-        user.setfName(name);
+        user.setfName(fName);
+        user.setlName(lName);
+        user.setAddress(address);
+        user.setZipcode(zipcode);
+        user.setGender(gender);
         try {
             result = userDao.createUser(user);
         } catch (SQLException e) {
