@@ -45,4 +45,18 @@ public class UserService {
         }
         return result;
 	}
+	
+	public boolean userLogin(String username, String password) {
+		boolean result = false;
+        User user = new User();
+        user.setuName(username);
+        user.setPassword(password);
+        try {
+            result = userDao.loginDao(user);
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return result;
+	}
 }

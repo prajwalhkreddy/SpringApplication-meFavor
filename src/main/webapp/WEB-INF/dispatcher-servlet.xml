@@ -25,9 +25,9 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost:3306/mefavordb" />
-		<property name="username" value="root" />
-		<property name="password" value="root" />
+		<property name="url" value="jdbc:mysql://prajwaldbinstance.ctfsiu1ugl17.us-west-2.rds.amazonaws.com:3306/meFavorDB" />
+		<property name="username" value="prajwalhk" />
+		<property name="password" value="prajwalhk" />
 	</bean>
 	<!-- Configure to plugin JSON as request and response in method handler -->
 	<bean

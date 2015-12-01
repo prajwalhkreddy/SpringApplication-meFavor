@@ -1,5 +1,7 @@
 package utd.phk.web.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +32,8 @@ public class UserController {
 	}
 
 	// ex: {context}/user/1
-	@RequestMapping(value = "/user/id/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET) ///user GET -> list of users
+	// @ResponseBody List<User>
 	
 	public @ResponseBody ResponseEntity<User> getUser(@PathVariable("id") String userid, HttpServletResponse response) {
 		ResponseEntity<User> userdetails = null;
@@ -44,9 +47,9 @@ public class UserController {
 	}
 
 	/// user?name="Prajwal"
-	@RequestMapping(value = "/user/byname", method = RequestMethod.GET)
-	public ResponseEntity<User> getUserByName(@RequestParam("name") String name) {
-		return null;
+	@RequestMapping(value = "/user", method = RequestMethod.GET)
+	public ResponseEntity<User> getUserByName(@RequestParam("ids") String ids) {
+		return null;//1,2,3,4 // [] -> dao -> for
 	}
 
 
@@ -56,6 +59,16 @@ public class UserController {
         String result = "success";    
         System.out.println("success");
         int status = userService.newUser(fName, lName, address, zipcode, gender);
+
+        return status;
+    }
+	
+	@RequestMapping(value = "/user/login", method = RequestMethod.POST)
+    @ResponseStatus(value=HttpStatus.OK)
+    public @ResponseBody boolean createUser(@RequestParam("username") String username, @RequestParam("password") String password) {
+        String result = "Login Success";    
+        System.out.println(result);
+        boolean status = userService.userLogin(username,password);
 
         return status;
     }

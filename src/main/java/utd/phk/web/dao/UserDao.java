@@ -28,7 +28,7 @@ public class UserDao {
 		PreparedStatement ps = null;
 		int insert = 0;
 
-		String sql = "select * from mefavordb.users where user_id = ?";
+		String sql = "select * from meFavorDB.users where user_id = ?";
 
 		conn = getDataSource().getConnection();
 		ps = conn.prepareStatement(sql);
@@ -56,6 +56,27 @@ public class UserDao {
 		return user;
 		
 	}
+	
+	public boolean loginDao(User loginUser) throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		int insert = 0;
+
+		String sql = "select * from meFavorDB.users where user_name= ? and password=?";
+
+		conn = getDataSource().getConnection();
+		ps = conn.prepareStatement(sql);
+		ps.setString(1, loginUser.getuName());
+		ps.setString(2, loginUser.getPassword());
+		ResultSet rs = ps.executeQuery();
+		if(rs.next()){
+			return (rs.getInt(1) > 0);
+		}
+		else{
+			return false;
+		}
+		
+	}
 
 	public User getUserByUserName(String userName) {
 		return null;
@@ -71,7 +92,7 @@ public class UserDao {
 		PreparedStatement ps = null;
 		int insert = 0;
 
-		String sql = "insert into mefavordb.users"
+		String sql = "insert into meFavorDB.users"
 				+ "(fname, lname, address, zipcode, rating, gender)"
 				+ " values(?,?,?,?,?,?)";
 
