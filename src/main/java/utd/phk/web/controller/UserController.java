@@ -31,10 +31,9 @@ public class UserController {
 		return message;
 	}
 
-	// ex: {context}/user/1
+	//Retrieve User Details 
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET) ///user GET -> list of users
 	// @ResponseBody List<User>
-	
 	public @ResponseBody ResponseEntity<User> getUser(@PathVariable("id") String userid, HttpServletResponse response) {
 		ResponseEntity<User> userdetails = null;
 		User user = userService.getUser(userid);
@@ -53,16 +52,19 @@ public class UserController {
 	}
 
 
+	
+	//Signup Page
 	@RequestMapping(value = "/user/new", method = RequestMethod.POST)
     @ResponseStatus(value=HttpStatus.OK)
-    public @ResponseBody int createUser(@RequestParam("fname") String fName, @RequestParam("lname") String lName, @RequestParam("address") String address, @RequestParam("zipcode") String zipcode, @RequestParam("gender") String gender) {
+    public @ResponseBody boolean createUser(@RequestParam("fname") String fName, @RequestParam("lname") String lName, @RequestParam("address") String address, @RequestParam("zipcode") String zipcode, @RequestParam("gender") String gender,  @RequestParam("phnumber") String phnumber,  @RequestParam("username") String username,  @RequestParam("password") String password) {
         String result = "success";    
         System.out.println("success");
-        int status = userService.newUser(fName, lName, address, zipcode, gender);
+        boolean status = userService.newUser(fName, lName, address, zipcode, gender, phnumber, username, password);
 
         return status;
     }
 	
+	//Login Check
 	@RequestMapping(value = "/user/login", method = RequestMethod.POST)
     @ResponseStatus(value=HttpStatus.OK)
     public @ResponseBody boolean createUser(@RequestParam("username") String username, @RequestParam("password") String password) {

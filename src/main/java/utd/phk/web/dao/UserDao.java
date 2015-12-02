@@ -14,16 +14,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import utd.phk.web.model.User;
 
 public class UserDao {
-	
+
 	@Autowired
 	private DataSource dataSource;
-	
+
 	public DataSource getDataSource() {
 		return this.dataSource;
 	}
-	
+
 	public User getUserById(String id) throws SQLException {
-		
+
 		Connection conn = null;
 		PreparedStatement ps = null;
 		int insert = 0;
@@ -44,7 +44,7 @@ public class UserDao {
 			user.setAddress(rs.getString("address"));
 			user.setZipcode(rs.getString("zipcode"));
 			user.setGender(rs.getString("gender"));
-					
+
 		}
 		try {
 			ps.close();
@@ -54,9 +54,9 @@ public class UserDao {
 			e.printStackTrace();
 		}
 		return user;
-		
+
 	}
-	
+
 	public boolean loginDao(User loginUser) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -69,13 +69,12 @@ public class UserDao {
 		ps.setString(1, loginUser.getuName());
 		ps.setString(2, loginUser.getPassword());
 		ResultSet rs = ps.executeQuery();
-		if(rs.next()){
+		if (rs.next()) {
 			return (rs.getInt(1) > 0);
-		}
-		else{
+		} else {
 			return false;
 		}
-		
+
 	}
 
 	public User getUserByUserName(String userName) {
@@ -86,41 +85,53 @@ public class UserDao {
 		return null;
 	}
 
-	public int createUser(User newUser) throws SQLException {
-		
+	public boolean createUser(User newUser) throws SQLException {
+
 		Connection conn = null;
 		PreparedStatement ps = null;
 		int insert = 0;
+		boolean result=false;
 
-		String sql = "insert into meFavorDB.users"
-				+ "(fname, lname, address, zipcode, rating, gender)"
-				+ " values(?,?,?,?,?,?)";
+		String sql1 = "select * from meFavorDB.users where user_name= ?";
 
 		conn = getDataSource().getConnection();
-		ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-		ps.setString(1, newUser.getfName());
-		ps.setString(2, newUser.getlName());
-		ps.setString(3, newUser.getAddress());
-		ps.setString(4, newUser.getZipcode());
-		ps.setString(5, newUser.getRating());
-		ps.setString(6, newUser.getGender());
-		// set others
-		insert = ps.executeUpdate();
-		ResultSet rs = ps.getGeneratedKeys();
-		int rowid = 0;
-		if (rs.next()) {
-			System.out.println(rs.toString());
-			rowid = rs.getInt(1);
-		}
-		try {
-			ps.close();
-			conn.close();
-			rs.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
+		ps = conn.prepareStatement(sql1);
+		ps.setString(1, newUser.getuName());
+		ResultSet rs1 = ps.executeQuery();
+		if (!rs1.next()) {
+			String sql2 = "insert into meFavorDB.users"
+					+ "(fname, lname, address, zipcode, rating, gender, phonenumber, user_name, password)"
+					+ " values(?,?,?,?,?,?,?,?,?)";
+
+			ps = conn.prepareStatement(sql2, Statement.RETURN_GENERATED_KEYS);
+			ps.setString(1, newUser.getfName());
+			ps.setString(2, newUser.getlName());
+			ps.setString(3, newUser.getAddress());
+			ps.setString(4, newUser.getZipcode());
+			ps.setString(5, newUser.getRating());
+			ps.setString(6, newUser.getGender());
+			ps.setString(7, newUser.getPhnumber());
+			ps.setString(8, newUser.getuName());
+			ps.setString(9, newUser.getPassword());
+			// set others
+			insert = ps.executeUpdate();
+			ResultSet rs = ps.getGeneratedKeys();
+			int rowid = 0;
+			if (rs.next()) {
+				System.out.println(rs.toString());
+				rowid = rs.getInt(1);
+				result = true;
+				try {
+					ps.close();
+					conn.close();
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 
-		return rowid;
+		return result;
 	}
 
 	public int updateUser(User user) {

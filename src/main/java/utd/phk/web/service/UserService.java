@@ -29,14 +29,18 @@ public class UserService {
 		return user;
 	}
 	
-	public int newUser(String fName, String lName, String address, String zipcode, String gender) {
-		int result = -1;
+	public boolean newUser(String fName, String lName, String address, String zipcode, String gender, String phnumber, String username, String password) {
+		boolean result = false;
         User user = new User();
         user.setfName(fName);
         user.setlName(lName);
         user.setAddress(address);
         user.setZipcode(zipcode);
         user.setGender(gender);
+        user.setPhnumber(phnumber);
+        user.setuName(username);
+        user.setPassword(password);
+        
         try {
             result = userDao.createUser(user);
         } catch (SQLException e) {

@@ -8,8 +8,17 @@ public class User {
 	private String zipcode;
 	private String rating;
 	private String gender;
+	private String phnumber;
 	private String uName;
 	private String password;
+	
+	public String getPhnumber() {
+		return phnumber;
+	}
+
+	public void setPhnumber(String phnumber) {
+		this.phnumber = phnumber;
+	}
 
 	public String getUserid() {
 		return userid;
