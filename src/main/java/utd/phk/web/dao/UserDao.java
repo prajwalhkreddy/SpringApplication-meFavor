@@ -44,6 +44,9 @@ public class UserDao {
 			user.setAddress(rs.getString("address"));
 			user.setZipcode(rs.getString("zipcode"));
 			user.setGender(rs.getString("gender"));
+			user.setPhnumber(rs.getString("phonenumber"));
+			user.setuName(rs.getString("user_name"));
+			user.setPassword(rs.getString("password"));
 
 		}
 		try {
