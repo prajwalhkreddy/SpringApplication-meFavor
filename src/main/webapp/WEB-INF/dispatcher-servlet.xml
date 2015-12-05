@@ -21,7 +21,7 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 	<bean id="feedService" class="utd.phk.web.service.FeedService" />
 
 	<bean id="userDao" class="utd.phk.web.dao.UserDao" />
-	<bean id="workDao" class="utd.phk.web.dao.workDao" />
+	<bean id="workDao" class="utd.phk.web.dao.WorkDao" />
 
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
