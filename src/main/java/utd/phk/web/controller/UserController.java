@@ -67,10 +67,10 @@ public class UserController {
 	//Login Check
 	@RequestMapping(value = "/user/login", method = RequestMethod.POST)
     @ResponseStatus(value=HttpStatus.OK)
-    public @ResponseBody boolean createUser(@RequestParam("username") String username, @RequestParam("password") String password) {
+    public @ResponseBody String createUser(@RequestParam("username") String username, @RequestParam("password") String password) {
         String result = "Login Success";    
         System.out.println(result);
-        boolean status = userService.userLogin(username,password);
+        String status = userService.userLogin(username,password);
 
         return status;
     }

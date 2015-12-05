@@ -60,12 +60,12 @@ public class UserDao {
 
 	}
 
-	public boolean loginDao(User loginUser) throws SQLException {
+	public String loginDao(User loginUser) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		int insert = 0;
 
-		String sql = "select * from meFavorDB.users where user_name= ? and password=?";
+		String sql = "select user_id from meFavorDB.users where user_name= ? and password=?";
 
 		conn = getDataSource().getConnection();
 		ps = conn.prepareStatement(sql);
@@ -73,9 +73,10 @@ public class UserDao {
 		ps.setString(2, loginUser.getPassword());
 		ResultSet rs = ps.executeQuery();
 		if (rs.next()) {
-			return (rs.getInt(1) > 0);
+			System.out.println("Returning User ID: "+rs.getString("user_id"));
+			return (rs.getString("user_id"));
 		} else {
-			return false;
+			return "0";
 		}
 
 	}
