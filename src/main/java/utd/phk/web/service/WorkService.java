@@ -47,7 +47,7 @@ public class WorkService {
 			e.printStackTrace();
 		}
 
-		System.out.println("Getting List of Open Works");
+		System.out.println("Getting List of Open Works from Database");
 		return openWorks;
 	}
 
