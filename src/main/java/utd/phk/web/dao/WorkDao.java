@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -21,7 +23,9 @@ public class WorkDao {
 	public DataSource getDataSource() {
 		return this.dataSource;
 	}
-
+	
+	
+	//Add new work
 	public int createWork(Work newWork, User user) throws SQLException {
 
 		Connection conn = null;
@@ -63,6 +67,33 @@ public class WorkDao {
 		}
 
 		return result;
+	}
+	
+	
+	//Get List of Open Works
+	public List<Work> getOpenWorks() throws SQLException {
+
+		Connection conn = null;
+		PreparedStatement ps = null;
+		List<Work> openworks = new ArrayList<Work>();
+		String sql = "SELECT work_desc, created_by, ts_created, ts_expiry, start_location, end_location, cost FROM meFavorDB.work where comp_status=0;";
+		conn = getDataSource().getConnection();
+		ps = conn.prepareStatement(sql);
+		ResultSet rs = ps.executeQuery();
+		Work work=null;
+		while (rs.next()) {
+			work =new Work();
+			work.setWorkDescription(rs.getString("work_desc"));
+			work.setCreatedBy(rs.getString("created_by"));
+			work.setTsCreated(rs.getString("ts_created"));
+			work.setTsExpiry(rs.getString("ts_expiry"));
+			work.setStartLocation(rs.getString("start_location"));
+			work.setEndLocation(rs.getString("end_location"));
+			work.setCost(rs.getString("cost"));
+		
+			openworks.add(work);
+		}
+		return openworks;
 	}
 
 }

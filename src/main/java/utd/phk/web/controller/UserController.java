@@ -68,8 +68,6 @@ public class UserController {
 	@RequestMapping(value = "/user/login", method = RequestMethod.POST)
     @ResponseStatus(value=HttpStatus.OK)
     public @ResponseBody String createUser(@RequestParam("username") String username, @RequestParam("password") String password) {
-        String result = "Login Success";    
-        System.out.println(result);
         String status = userService.userLogin(username,password);
 
         return status;

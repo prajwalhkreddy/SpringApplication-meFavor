@@ -14,6 +14,8 @@ public class UserService {
 	@Autowired
 	private UserDao userDao;
 	
+	
+	//Get User Information
 	public User getUser(String id) {
 		User user = null;
 		try {
