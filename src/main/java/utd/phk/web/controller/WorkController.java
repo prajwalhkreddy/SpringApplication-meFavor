@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import utd.phk.web.model.OpenWorks;
 import utd.phk.web.model.User;
 import utd.phk.web.model.Work;
 import utd.phk.web.service.WorkService;
@@ -41,8 +42,8 @@ public class WorkController {
 	// Retrieve User Details
 	@RequestMapping(value = "/work/open", method = RequestMethod.GET) 
 	// @ResponseBody List<User>
-	public @ResponseBody List<Work> getWorks(HttpServletResponse response) {
-		List<Work> workdetails = new ArrayList<Work>();
+	public @ResponseBody List<OpenWorks> getWorks(HttpServletResponse response) {
+		List<OpenWorks> workdetails = new ArrayList<OpenWorks>();
 		workdetails  = workService.getWork();
 		if (workdetails == null) {
 			response.setStatus(404);

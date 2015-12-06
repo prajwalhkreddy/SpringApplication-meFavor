@@ -12,6 +12,7 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import utd.phk.web.model.OpenWorks;
 import utd.phk.web.model.User;
 import utd.phk.web.model.Work;
 
@@ -23,9 +24,8 @@ public class WorkDao {
 	public DataSource getDataSource() {
 		return this.dataSource;
 	}
-	
-	
-	//Add new work
+
+	// Add new work
 	public int createWork(Work newWork, User user) throws SQLException {
 
 		Connection conn = null;
@@ -33,23 +33,23 @@ public class WorkDao {
 		int insert = 0;
 		int result = -1;
 		java.sql.Date sqlDate = new java.sql.Date(new java.util.Date().getTime());
-		
+
 		String sql = "insert into meFavorDB.work"
 				+ "(work_desc, created_by, assign_status, ts_created, ts_expiry, comp_status, start_location, end_location, cost)"
 				+ " values(?,?,?,?,?,?,?,?,?)";
 		conn = getDataSource().getConnection();
 
 		ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-		ps.setString(1, newWork.getWorkDescription() );
+		ps.setString(1, newWork.getWorkDescription());
 		ps.setString(2, user.getUserid());
-		ps.setString(3, ""+0);
+		ps.setString(3, "" + 0);
 		ps.setDate(4, sqlDate);
 		ps.setString(5, newWork.getTsExpiry());
-		ps.setString(6, ""+0);
+		ps.setString(6, "" + 0);
 		ps.setString(7, newWork.getStartLocation());
 		ps.setString(8, newWork.getEndLocation());
 		ps.setString(9, newWork.getCost());
-		
+
 		insert = ps.executeUpdate();
 		ResultSet rs = ps.getGeneratedKeys();
 		int rowid = 0;
@@ -68,21 +68,24 @@ public class WorkDao {
 
 		return result;
 	}
-	
-	
-	//Get List of Open Works
-	public List<Work> getOpenWorks() throws SQLException {
+
+	// Get List of Open Works
+	public List<OpenWorks> getOpenWorks() throws SQLException {
 
 		Connection conn = null;
 		PreparedStatement ps = null;
-		List<Work> openworks = new ArrayList<Work>();
-		String sql = "SELECT work_desc, created_by, ts_created, ts_expiry, start_location, end_location, cost FROM meFavorDB.work where comp_status=0;";
+		List<OpenWorks> openworks = new ArrayList<OpenWorks>();
+		// String sql = "SELECT work_desc, created_by, ts_created, ts_expiry,
+		// start_location, end_location, cost FROM meFavorDB.work where
+		// comp_status=0;";
+		String sql = "SELECT a.work_id, a.work_desc, a.created_by, a.ts_created, a.ts_expiry, a.start_location, a.end_location, a.cost, b.user_id, b.fname, b.lname FROM meFavorDB.work As a ,meFavorDB.users As b where a.comp_status=0 and a.created_by=b.user_id;";
 		conn = getDataSource().getConnection();
 		ps = conn.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
-		Work work=null;
+		OpenWorks work = null;
 		while (rs.next()) {
-			work =new Work();
+			work = new OpenWorks();
+			work.setWorkId(rs.getString("work_id"));
 			work.setWorkDescription(rs.getString("work_desc"));
 			work.setCreatedBy(rs.getString("created_by"));
 			work.setTsCreated(rs.getString("ts_created"));
@@ -90,7 +93,9 @@ public class WorkDao {
 			work.setStartLocation(rs.getString("start_location"));
 			work.setEndLocation(rs.getString("end_location"));
 			work.setCost(rs.getString("cost"));
-		
+			work.setFname(rs.getString("fname"));
+			work.setLname(rs.getString("lname"));
+
 			openworks.add(work);
 		}
 		return openworks;

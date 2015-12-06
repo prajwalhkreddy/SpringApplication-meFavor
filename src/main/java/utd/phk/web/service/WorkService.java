@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import utd.phk.web.dao.WorkDao;
+import utd.phk.web.model.OpenWorks;
 import utd.phk.web.model.User;
 import utd.phk.web.model.Work;
 
@@ -38,8 +39,8 @@ public class WorkService {
 	}
 
 	// Get Work Information
-	public List<Work> getWork() {
-		List<Work> openWorks=null;
+	public List<OpenWorks> getWork() {
+		List<OpenWorks> openWorks=null;
 		try {
 			openWorks = workDao.getOpenWorks();
 		} catch (SQLException e) {
