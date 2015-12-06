@@ -101,4 +101,37 @@ public class WorkDao {
 		return openworks;
 	}
 
+	// Update Work status
+	public int updateWork(Work upWork, String compstatus) throws SQLException {
+
+		Connection conn = null;
+		PreparedStatement ps = null;
+		int insert = 0;
+		
+		String sql = "UPDATE meFavorDB.work SET assign_to = ?, comp_status = ? WHERE work_id = ?;";
+		
+		conn = getDataSource().getConnection();
+		ps = conn.prepareStatement(sql);
+		
+		ps.setString(1, upWork.getAssignTo());
+		if(compstatus.equals("1")){
+		ps.setString(2, "" + 1);
+		}
+		else if(compstatus.equals("2")){
+			ps.setString(2, "" + 2);
+		}
+			
+		ps.setString(3, upWork.getWorkId());
+
+		insert = ps.executeUpdate();
+		try {
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return insert;
+	}
+
 }

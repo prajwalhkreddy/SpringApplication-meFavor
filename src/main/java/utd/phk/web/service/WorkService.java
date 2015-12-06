@@ -51,5 +51,22 @@ public class WorkService {
 		System.out.println("Getting List of Open Works from Database");
 		return openWorks;
 	}
+	
+	
+	//Update Work
+	public int updateWork(String workid, String acceptorid, String compstatus) {
+		int result = -1;
+		Work work = new Work();
+		work.setWorkId(workid);
+		work.setAssignTo(acceptorid);;
+
+		try {
+			result = workDao.updateWork(work,compstatus);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
 
 }

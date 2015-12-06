@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,9 +29,11 @@ public class WorkController {
 	// Work Submit Page
 	@RequestMapping(value = "/work/create", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.OK)
-	public @ResponseBody int createUser(@RequestParam("workdescription") String workDesc,
-			@RequestParam("createdBy") String createdby, @RequestParam("completeBy") String completeby,
-			@RequestParam("startLoc") String startloc, @RequestParam("endLoc") String endloc,
+	public @ResponseBody int createWork(@RequestParam("workdescription") String workDesc,
+			@RequestParam("createdBy") String createdby, 
+			@RequestParam("completeBy") String completeby,
+			@RequestParam("startLoc") String startloc, 
+			@RequestParam("endLoc") String endloc,
 			@RequestParam("cost") String cost) {
 		String result = "success";
 		System.out.println("success");
@@ -39,9 +42,8 @@ public class WorkController {
 		return status;
 	}
 
-	// Retrieve User Details
+	// Retrieve OpenWork Details
 	@RequestMapping(value = "/work/open", method = RequestMethod.GET) 
-	// @ResponseBody List<User>
 	public @ResponseBody List<OpenWorks> getWorks(HttpServletResponse response) {
 		List<OpenWorks> workdetails = new ArrayList<OpenWorks>();
 		workdetails  = workService.getWork();
@@ -53,4 +55,18 @@ public class WorkController {
 		return workdetails;
 	}
 
+	
+	//Update Works table when a user accepts to complete work
+	@RequestMapping(value = "/work/update", method = RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.OK)
+	public @ResponseBody int updateWork(@RequestParam("workid") String workID,
+			@RequestParam("acceptorid") String acceptorID,
+			@RequestParam("compstatus") String compstatus){
+		int status = workService.updateWork(workID,acceptorID,compstatus);
+
+		return status;
+	}
+	
+	
+	
 }
