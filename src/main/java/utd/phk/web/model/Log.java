@@ -7,6 +7,7 @@ public class Log {
 	private String acceptorId;
 	private String workId;
 	private String workStatus;
+	
 	public String getLogId() {
 		return logId;
 	}
