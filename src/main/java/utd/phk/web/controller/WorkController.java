@@ -42,7 +42,7 @@ public class WorkController {
 		return status;
 	}
 
-	// Retrieve OpenWork Details
+	// Retrieve Work Details based on Completion Details
 	@RequestMapping(value = "/work/get", method = RequestMethod.GET) 
 	public @ResponseBody List<OpenWorks> getWorks(@RequestParam("compstatus") String compstatus, HttpServletResponse response) {
 		List<OpenWorks> workdetails = new ArrayList<OpenWorks>();

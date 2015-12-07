@@ -13,8 +13,15 @@ public class OpenWorks {
 	private String fname;
 	private String lname;
 	private String assignStatus;
+	private String assignTo;
 	
 	
+	public String getAssignTo() {
+		return assignTo;
+	}
+	public void setAssignTo(String assignTo) {
+		this.assignTo = assignTo;
+	}
 	public String getWorkId() {
 		return workId;
 	}
