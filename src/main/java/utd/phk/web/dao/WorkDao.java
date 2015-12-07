@@ -70,7 +70,7 @@ public class WorkDao {
 	}
 
 	// Get List of Open Works
-	public List<OpenWorks> getOpenWorks() throws SQLException {
+	public List<OpenWorks> getOpenWorks(String compstatus) throws SQLException {
 
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -78,9 +78,18 @@ public class WorkDao {
 		// String sql = "SELECT work_desc, created_by, ts_created, ts_expiry,
 		// start_location, end_location, cost FROM meFavorDB.work where
 		// comp_status=0;";
-		String sql = "SELECT a.work_id, a.work_desc, a.created_by, a.ts_created, a.ts_expiry, a.start_location, a.end_location, a.cost, b.user_id, b.fname, b.lname FROM meFavorDB.work As a ,meFavorDB.users As b where a.comp_status=0 and a.created_by=b.user_id;";
+
+		String sql = "SELECT a.work_id, a.work_desc, a.created_by, a.ts_created, a.ts_expiry, a.start_location, a.end_location, a.cost, b.user_id, b.fname, b.lname FROM meFavorDB.work As a ,meFavorDB.users As b where a.comp_status=? and a.created_by=b.user_id;";
+
 		conn = getDataSource().getConnection();
 		ps = conn.prepareStatement(sql);
+		if (compstatus.equals("0")) {
+			ps.setString(1, "" + 0);
+		} else if (compstatus.equals("1")) {
+			ps.setString(1, "" + 1);
+		} else if (compstatus.equals("2")) {
+			ps.setString(1, "" + 2);
+		}
 		ResultSet rs = ps.executeQuery();
 		OpenWorks work = null;
 		while (rs.next()) {
@@ -107,20 +116,19 @@ public class WorkDao {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		int insert = 0;
-		
+
 		String sql = "UPDATE meFavorDB.work SET assign_to = ?, comp_status = ? WHERE work_id = ?;";
-		
+
 		conn = getDataSource().getConnection();
 		ps = conn.prepareStatement(sql);
-		
+
 		ps.setString(1, upWork.getAssignTo());
-		if(compstatus.equals("1")){
-		ps.setString(2, "" + 1);
-		}
-		else if(compstatus.equals("2")){
+		if (compstatus.equals("1")) {
+			ps.setString(2, "" + 1);
+		} else if (compstatus.equals("2")) {
 			ps.setString(2, "" + 2);
 		}
-			
+
 		ps.setString(3, upWork.getWorkId());
 
 		insert = ps.executeUpdate();

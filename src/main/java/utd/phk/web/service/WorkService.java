@@ -39,10 +39,10 @@ public class WorkService {
 	}
 
 	// Get Work Information
-	public List<OpenWorks> getWork() {
+	public List<OpenWorks> getWork(String compstatus) {
 		List<OpenWorks> openWorks=null;
 		try {
-			openWorks = workDao.getOpenWorks();
+			openWorks = workDao.getOpenWorks(compstatus);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

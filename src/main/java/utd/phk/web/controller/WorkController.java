@@ -43,10 +43,10 @@ public class WorkController {
 	}
 
 	// Retrieve OpenWork Details
-	@RequestMapping(value = "/work/open", method = RequestMethod.GET) 
-	public @ResponseBody List<OpenWorks> getWorks(HttpServletResponse response) {
+	@RequestMapping(value = "/work/get", method = RequestMethod.GET) 
+	public @ResponseBody List<OpenWorks> getWorks(@RequestParam("compstatus") String compstatus, HttpServletResponse response) {
 		List<OpenWorks> workdetails = new ArrayList<OpenWorks>();
-		workdetails  = workService.getWork();
+		workdetails  = workService.getWork(compstatus);
 		if (workdetails == null) {
 			response.setStatus(404);
 			return workdetails;
