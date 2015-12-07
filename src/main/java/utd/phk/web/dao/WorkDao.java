@@ -104,6 +104,7 @@ public class WorkDao {
 			work.setCost(rs.getString("cost"));
 			work.setFname(rs.getString("fname"));
 			work.setLname(rs.getString("lname"));
+			work.setAssignTo(rs.getString("assign_to"));
 
 			openworks.add(work);
 		}
