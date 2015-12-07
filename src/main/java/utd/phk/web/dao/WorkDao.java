@@ -79,7 +79,7 @@ public class WorkDao {
 		// start_location, end_location, cost FROM meFavorDB.work where
 		// comp_status=0;";
 
-		String sql = "SELECT a.work_id, a.work_desc, a.created_by, a.ts_created, a.ts_expiry, a.start_location, a.end_location, a.cost, b.user_id, b.fname, b.lname FROM meFavorDB.work As a ,meFavorDB.users As b where a.comp_status=? and a.created_by=b.user_id;";
+		String sql = "SELECT a.work_id, a.work_desc, a.created_by, a.ts_created, a.ts_expiry, a.start_location, a.end_location, a.cost, a.assign_to, b.user_id, b.fname, b.lname FROM meFavorDB.work As a ,meFavorDB.users As b where a.comp_status=? and a.created_by=b.user_id;";
 
 		conn = getDataSource().getConnection();
 		ps = conn.prepareStatement(sql);
