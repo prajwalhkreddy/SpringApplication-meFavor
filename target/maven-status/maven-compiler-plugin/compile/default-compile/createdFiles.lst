@@ -1,5 +1,6 @@
 utd\phk\web\model\Feed.class
 utd\phk\web\model\OpenWorks.class
+utd\phk\web\model\Log.class
 utd\phk\web\service\FeedService.class
 utd\phk\web\controller\UserController.class
 utd\phk\web\except\MeFavorException.class

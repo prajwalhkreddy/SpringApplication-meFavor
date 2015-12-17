@@ -1,7 +1,11 @@
 package utd.phk.web.model;
 
-public class OpenWorks {
+import java.io.Serializable;
 
+public class OpenWorks implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+	
 	private String workId;
 	private String workDescription;
 	private String createdBy;

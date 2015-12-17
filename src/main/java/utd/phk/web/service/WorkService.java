@@ -1,11 +1,13 @@
 package utd.phk.web.service;
 
+import java.net.InetSocketAddress;
 import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import net.spy.memcached.MemcachedClient;
 import utd.phk.web.dao.WorkDao;
 import utd.phk.web.model.OpenWorks;
 import utd.phk.web.model.User;
@@ -39,10 +41,30 @@ public class WorkService {
 	}
 
 	// Get Work Information
+	// caching done here
+	@SuppressWarnings("unchecked")
 	public List<OpenWorks> getWork(String compstatus) {
 		List<OpenWorks> openWorks=null;
+		MemcachedClient client = null;
+		Object cacheObj = null;
+		String comp1;
 		try {
-			openWorks = workDao.getOpenWorks(compstatus);
+			comp1 = ""+WorkStatus.values()[(Integer.parseInt(compstatus))];
+			client = getClient();
+			// check if present in cache
+			if (client != null) {
+				 cacheObj = client.get(comp1);
+				 if (cacheObj == null) {
+					 System.out.println("cache miss, fecthing from db...");
+					 openWorks = workDao.getOpenWorks(compstatus);
+					 client.set(comp1, 60, openWorks);
+					 System.out.println("storing result in cache...");
+				 } else {
+					 System.out.println("cache hit, serving data from cache");
+					 openWorks =  (List<OpenWorks>) cacheObj;
+				 }
+			}
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -67,6 +89,24 @@ public class WorkService {
 			e.printStackTrace();
 		}
 		return result;
+	}
+	
+	private MemcachedClient getClient(){
+		String configEndpoint = "localhost";
+		Integer clusterPort = 11211;
+		MemcachedClient client = null;
+		
+		if(client == null) {
+			try {
+				client = new MemcachedClient(new InetSocketAddress(configEndpoint,
+						clusterPort));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return null;
+			}
+		}
+		return client;
 	}
 
 }
