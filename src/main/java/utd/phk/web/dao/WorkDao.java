@@ -108,6 +108,13 @@ public class WorkDao {
 
 			openworks.add(work);
 		}
+		try {
+			ps.close();
+			conn.close();
+			rs.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return openworks;
 	}
 
